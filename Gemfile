@@ -34,6 +34,9 @@ group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
   gem 'pry'
   gem 'dotenv-rails'
+  gem 'database_cleaner'
+  gem 'rspec-rails'
+  gem 'capybara'
 end
 
 group :development do

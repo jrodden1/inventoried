@@ -1,11 +1,11 @@
 Rails.application.routes.draw do
-  root 'static/home'
+  root 'static#home'
   
   get '/signup', to: "users#signup"
   get '/login', to: "sessions#login"
   delete '/logout', to: "sessions#logout"
   
-  resources :users, except: [:new, :destroy]
+  resources :users, except: [:new, :delete]
   resources :locations do
     resources :items
   end
