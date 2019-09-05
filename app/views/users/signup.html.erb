@@ -1,2 +1,13 @@
 <h1>Users#signup</h1>
 <p>Find me in app/views/users/signup.html.erb</p>
+
+<%= form_for @user do |f| %>
+   <%= f.label :name, "Your First and Last Name: " %>
+   <%= f.text_field :name %><br>
+   <%= f.label :email, "Email Address: " %>
+   <%= f.email_field :email %><br>
+   <%= f.label :password, "Desired Password: " %>
+   <%= f.password_field :password %><br><br>
+
+   <%= f.submit "Signup" %>
+<% end %>
