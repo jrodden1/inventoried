@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  get 'sessions/login'
+  get 'sessions/logout'
   resources :items
   resources :locations
   resources :users
