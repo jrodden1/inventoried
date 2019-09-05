@@ -1,12 +1,14 @@
 Rails.application.routes.draw do
-  get 'static/home'
-  get 'sessions/login'
-  get 'sessions/logout'
-  resources :items
-  resources :locations
-  resources :users
-  get 'users/signup'
-  get 'users/edit'
-  get 'users/show'
+  root 'static/home'
+  
+  get '/signup', to: "users#signup"
+  get '/login', to: "sessions#login"
+  delete '/logout', to: "sessions#logout"
+  
+  resources :users, except: [:new, :destroy]
+  resources :locations do
+    resources :items
+  end
+
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
