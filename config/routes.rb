@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'static/home'
   get 'sessions/login'
   get 'sessions/logout'
   resources :items
