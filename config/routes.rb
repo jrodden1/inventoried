@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :items
   resources :locations
   resources :users
   get 'users/signup'
