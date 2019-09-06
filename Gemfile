@@ -17,7 +17,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
 gem 'bcrypt', '~> 3.1.7'
-gem 'omniauth'
+# gem 'omniauth' #Commented out due to security vulnerability found.  I'll see if just the omniauth-facebook one will work instead though I think it may have 'omniauth' gem as a dependency
 gem 'omniauth-facebook'
 
 # Use ActiveStorage variant
