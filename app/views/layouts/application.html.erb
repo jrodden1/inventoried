@@ -9,6 +9,10 @@
   </head>
 
   <body>
+    <%= form_tag logout_path, method: :delete do %>
+      <%= submit_tag "Logout" %>
+    <% end %>
+
     <% if flash[:notify].present? %>
       <%= flash[:notify] %>
     <% end %>
