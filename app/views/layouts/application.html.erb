@@ -5,17 +5,27 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all' %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
   <body>
-    <%= form_tag logout_path, method: :delete do %>
+    <!-- This works for a Logout Button... but I'd like a link
+      <%= form_tag logout_path, method: :delete do %>
       <%= submit_tag "Logout" %>
-    <% end %>
+    <% end %> -->
+      <%= link_to  "Logout", logout_path, method: :delete %>
+
 
     <% if flash[:notify].present? %>
       <%= flash[:notify] %>
     <% end %>
     <%= yield %>
+    <br>
+    <% if session[:user_id].present? %>
+      <p>You are currently logged in as: User ID: <%= session[:user_id] %> </p>
+    <% else %>
+      <p>You are currently not logged in.</p>
+    <% end %>
   </body>
 </html>
