@@ -10,11 +10,7 @@
   </head>
 
   <body>
-    <!-- This works for a Logout Button... but I'd like a link
-      <%= form_tag logout_path, method: :delete do %>
-      <%= submit_tag "Logout" %>
-    <% end %> -->
-      <%= link_to  "Logout", logout_path, method: :delete %>
+    <%= link_to  "Logout", logout_path, method: :delete %>
 
 
     <% if flash[:notify].present? %>
