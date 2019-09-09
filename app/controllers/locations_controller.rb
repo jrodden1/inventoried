@@ -1,6 +1,7 @@
 class LocationsController < ApplicationController
-   before_action :is_logged_in?
-   before_action :current_user
+   before_action :is_logged_in? #checks to see if a user is logged in for all actions
+   before_action :current_user #sets @user for all actions
+   before_action :set_location, only: [:show, :edit, :update, :destroy] #sets @location for show, edit, update, and destory
 
    def index
       @locations = @user.locations
@@ -12,8 +13,8 @@ class LocationsController < ApplicationController
    
    def create
       @location = Location.new(location_params)
-      binding.pry
-      authorized?(@user.id, @location.user_id) do 
+      
+      authorized?(resource_user_id: @location.user_id) do 
          if @location.save
             flash[:notify] = "#{@location.name} successfully created!"
             redirect_to location_path(@location)
@@ -25,9 +26,11 @@ class LocationsController < ApplicationController
    end
    
    def show 
+      authorized?(resource_user_id: @location.user_id)
    end
    
-   def edit 
+   def edit
+      
    end
    
    def update
@@ -39,7 +42,11 @@ class LocationsController < ApplicationController
 private
    
    def location_params
-      params.require(:location).permit(:name, :user_id, :item_id)
+      params.require(:location).permit(:name, :user_id)
    end
    
+   def set_location
+      @location = Location.find_by_id(params[:id])
+   end
+
 end
