@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
-   before_action :set_location, only: [:show, :edit, :destroy] #sets @location for show, edit, update, and destory
+   before_action :set_location, only: [:show, :edit] #sets @location for show, edit
 
    def index
       @locations = @user.locations
@@ -37,18 +37,31 @@ class LocationsController < ApplicationController
       create_dummy_location_for_checking
 
       authorized?(resource_user_id: @location.user_id) do 
-         if set_location
-            @location.update(name: location_params[:name])
+         set_location
+         if @location.update(name: location_params[:name])
             flash[:notify] = "Location name successfully updated!"
             redirect_to location_path(@location)
          else
             flash[:notify] = display_errors(@location)
-            render :edit
-         end
+            redirect_to location_path(@location)
+         end    
       end
    end
    
    def destroy
+      create_dummy_location_for_checking
+
+      authorized?(resource_user_id: @location.user_id) do 
+         set_location
+         #REFACTOR NEEDED - Need to make sure that all the items are deleted before destroying
+         if @location.destroy
+            flash[:notify] = "Location successfully deleted"
+            redirect_to locations_path
+         else
+            flash[:notify] = display_errors(@location)
+            render :show
+         end
+      end
    end
 
 private
