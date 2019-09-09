@@ -18,8 +18,13 @@ class ApplicationController < ActionController::Base
       end
    end
 
-   def authorized?(current_user_obj=@user, resource_user_id)
-     current_user_obj.id == resource_user_id
+   def authorized?(current_user_id: @user.id, resource_user_id:)
+      if current_user_id == resource_user_id
+         yield
+      else
+         flash[:notify] = "You are not authorized to perform this action"
+         redirect_to login_path
+      end
    end 
 
 end

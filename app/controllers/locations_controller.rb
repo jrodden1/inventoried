@@ -13,13 +13,14 @@ class LocationsController < ApplicationController
    def create
       @location = Location.new(location_params)
       binding.pry
-      if authorized?(@user.id, @location.user_id)
-         @location = Location.find_by(:name)
-         flash[:notify] = "#{@location.name} successfully created!"
-         redirect_to location_path(@location)
-      else
-         flash[:notify] = "You are not authorized to perform this action"
-         redirect_to login_path
+      authorized?(@user.id, @location.user_id) do 
+         if @location.save
+            flash[:notify] = "#{@location.name} successfully created!"
+            redirect_to location_path(@location)
+         else
+            flash[:notify] = display_errors(@location)
+            render :new
+         end
       end
    end
    
