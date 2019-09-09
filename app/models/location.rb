@@ -4,4 +4,16 @@ class Location < ApplicationRecord
    has_many :items, through: :location_items
 
    validates :name, presence: true
+
+   def item_quantity(item_obj)
+      location_item = LocationItem.find_by(location_id: self.id, item_id: item_obj.id)
+      location_item.quantity
+   end
+
+   def add_or_update_item_quantity(item_obj, quantity)
+      location_item = LocationItem.find_by(location_id: self.id, item_id: item_obj.id)   
+      location_item.quantity = quantity
+      location_item.save
+   end
+
 end
