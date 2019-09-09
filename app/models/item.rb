@@ -1,5 +1,5 @@
 class Item < ApplicationRecord
-   has_many :locations
+   has_and_belongs_to_many :locations
    has_many :users, through: :locations
 
    validates :name, presence: true 

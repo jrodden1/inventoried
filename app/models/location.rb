@@ -1,6 +1,6 @@
 class Location < ApplicationRecord
    belongs_to :user
-   belongs_to :item, optional: true
+   belongs_to :items
 
    validates :name, presence: true
 end
