@@ -25,6 +25,7 @@
 
 .env
 NOTES.md
+seeds.rb
 # Ignore .DS_Store files
 .DS_Store
 
