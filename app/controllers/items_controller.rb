@@ -9,10 +9,53 @@ class ItemsController < ApplicationController
    end
    
    def new
-      @item = Item.new
+      @item = @location.items.build
+      @location_item = @location.location_items.build
+      #this could use some refactoring but it works. 
+      @user_items = Item.all.select do |item|
+         item.users.first.id == @user.id
+         #I don't like this piece of code -- need to refactor this so that there is a belongs_to of item to user
+      end.reject {|item| @location.items.find_by(name: item.name)}
    end
    
    def create
+      authorized?(resource_user_id: @location.user_id) do 
+         if params[:existing_item].present?
+            @item = Item.find_by_id(params[:existing_item][:id])
+            if @item.id
+               @location_item = LocationItem.new(location_item_for_existing_params)
+               @location_item.item_id = @item.id
+               if @location_item.save 
+                  flash[:notify] = "Your item was successfully created and added to #{@location.name}"
+                  redirect_to location_items_path(@location)
+               else
+                  flash[:notify] = display_errors(@location_item)
+                  render :new
+               end
+            else
+               flash[:notify] = display_errors(@item)
+               render :new
+            end
+
+         elsif params[:item].present?
+            @item = Item.new(item_params)
+
+            if @item.save
+               @location_item = LocationItem.new(location_item_params)
+               @location_item.item_id = @item.id
+               if @location_item.save 
+                  flash[:notify] = "Your item was successfully created and added to #{@location.name}"
+                  redirect_to location_items_path(@location)
+               else
+                  flash[:notify] = display_errors(@location_item)
+                  render :new
+               end
+            else
+               flash[:notify] = display_errors(@item)
+               render :new
+            end
+         end
+      end
    end
    
    def show 
@@ -29,7 +72,15 @@ class ItemsController < ApplicationController
 
 private
    def item_params
-      params.require(:item).permit(:name, :description, :quantity)
+      params.require(:item).permit(:name, :description)
+   end
+
+   def location_item_params
+      params.require(:location_item).permit(:location_id, :quantity)
+   end
+   
+   def location_item_for_existing_params
+      params.require(:location_item_for_existing).permit(:location_id, :quantity)
    end
 
    def set_location_by_location_id

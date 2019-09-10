@@ -1,1 +1,17 @@
-<%= render partial: "item", locals: {item: @item} %>
+<h1>Add Item to <%= @location.name %></h1>
+
+<h2>Add Existing Item</h2>
+<%= form_for @item, as: :existing_item, url: location_items_path(@location) do |f| %>
+   <%= f.collection_select :id, @user_items, :id, :name %>
+
+   <%= fields_for @location_item, as: :location_item_for_existing do |loc_item| %>
+      <%= loc_item.hidden_field :location_id %>
+      <%= loc_item.label :quantity, "Quantity: " %>
+      <%= loc_item.number_field :quantity, step: 1 %>
+   <% end %>
+
+  <%= f.submit "Add Item to #{@location.name}" %>   
+<% end %>
+
+<h2>Add New Item</h2>
+<%= render partial: "item", locals: {item: @item, location: @location, location_item: @location_item} %>
