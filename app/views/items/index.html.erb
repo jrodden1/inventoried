@@ -1,13 +1,20 @@
 <h2><%= @location.name %></h2>
+<%= link_to  "Edit Location Name", edit_location_path(@location) %>
+<%= form_tag location_path(@location), method: :delete do %>
+  <%= submit_tag "Delete #{@location.name}" %>
+<% end %>
 
 <%# I should turn this into a table later - refactor %>
 <h4>List of Items in this location</h4>
 <ul>
-   <% @items.each do |item| %>
-      <li><%= link_to  item.name, location_item_path(@location, item) %>, Qty: <%= @location.item_quantity(item) %></li>
+   <% if @items.empty? %>
+      <p>There are currently no items in this location</p>
+   <% else %>
+      <% @items.each do |item| %>
+         <li><%= link_to  item.name, location_item_path(@location, item) %>, Qty: <%= @location.item_quantity(item) %></li>
+      <% end %>   
    <% end %>
 </ul>
 
-<%= form_tag location_path(@location), method: :delete do %>
-  <%= submit_tag "Delete #{@location.name}" %>
-<% end %>
+<%= link_to  "Add Item to #{@location.name}", new_location_item_path(@location) %>
+
