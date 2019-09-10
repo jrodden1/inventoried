@@ -8,7 +8,6 @@ class LocationItem < ApplicationRecord
 
    def no_dupe_items_in_a_location
       !LocationItem.where("location_id = ? AND item_id = ?", self.location_id, self.item_id)
-
    end
    
    # def quantity

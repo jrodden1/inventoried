@@ -2,7 +2,8 @@ class ItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
    before_action :set_location_by_location_id
-   before_action :set_item, only: [:show]
+   before_action :set_item, only: [:show, :edit]
+   before_action :set_location_item, only: [:show, :edit]
    
    def index
       
@@ -62,13 +63,18 @@ class ItemsController < ApplicationController
    end
    
    def show
-      set_location_item
+      authorized?(resource_user_id: @location.user_id)
    end
    
    def edit 
+      authorized?(resource_user_id: @location.user_id)
    end
    
    def update
+      #should possibly switch the resource_user_id to @item.users.first.id
+      authorized?(resource_user_id: @location.user_id) do 
+
+      end
    end
    
    def destroy
