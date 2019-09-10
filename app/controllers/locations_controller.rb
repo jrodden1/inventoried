@@ -12,8 +12,9 @@ class LocationsController < ApplicationController
    end
    
    def create
-      create_dummy_location_for_checking
-      
+      @location = Location.new(name: params[:location][:name], user_id: session[:user_id])
+      #I may need to refactor the form here to just remove the hidden input for user_id and just make 'location_params' just the name parameter
+
       authorized?(resource_user_id: @location.user_id) do 
          if @location.save
             flash[:notify] = "#{@location.name} successfully created!"
@@ -34,11 +35,7 @@ class LocationsController < ApplicationController
    end
    
    def update
-      #create_dummy_location_for_checking
-      set_location
-
       authorized?(resource_user_id: @location.user_id) do 
-         #set_location
          if @location.update(name: location_params[:name])
             flash[:notify] = "Location name successfully updated!"
             redirect_to location_path(@location)
@@ -50,17 +47,18 @@ class LocationsController < ApplicationController
    end
    
    def destroy
-      create_dummy_location_for_checking
-
       authorized?(resource_user_id: @location.user_id) do 
-         set_location
-         #REFACTOR NEEDED - Need to make sure that all the items are deleted before destroying
-         if @location.destroy
-            flash[:notify] = "Location successfully deleted"
-            redirect_to locations_path
+         if @location.items.empty?
+            if @location.destroy
+               flash[:notify] = "Location successfully deleted"
+               redirect_to locations_path
+            else
+               flash[:notify] = display_errors(@location)
+               render :show
+            end
          else
-            flash[:notify] = display_errors(@location)
-            render :show
+            flash[:notify] = "This location still contains items.  Please delete all items belonging to this location before deleting this location"
+            redirect_to location_path(@location)
          end
       end
    end
@@ -73,10 +71,6 @@ private
    
    def set_location
       @location = Location.find_by_id(params[:id])
-   end
-
-   def create_dummy_location_for_checking
-      @location = Location.new(location_params)
    end
    
 end
