@@ -4,5 +4,5 @@
    <%= render partial: "existing_item", locals: {item: @item, location: @location, location_item: @location_item, user_items: @user_items} %> 
 <% end %>
 <h2>Create a New Item and Add Stock to this Location</h2>
-<%= render partial: "item", locals: {item: @item, location: @location, location_item: @location_item} %>
+<%= render partial: "item", locals: {item: @item, url: location_items_path(@location), location_item: @location_item} %>
 <%= link_to  "Return to item list for #{@location.name}", location_items_path(@location) %>

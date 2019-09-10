@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
    before_action :set_location_by_location_id
-   before_action :set_item, only: [:show, :edit]
-   before_action :set_location_item, only: [:show, :edit]
+   before_action :set_item, only: [:show, :edit, :update, :destory]
+   before_action :set_location_item, only: [:show, :edit, :update, :destory]
    
    def index
       
@@ -73,7 +73,18 @@ class ItemsController < ApplicationController
    def update
       #should possibly switch the resource_user_id to @item.users.first.id
       authorized?(resource_user_id: @location.user_id) do 
-
+         if @item.update(item_params)
+            if @location_item.update(location_item_params)
+               flash[:notify] = "Your item was successfully updated!"
+               redirect_to location_item_path(@location, @item)
+            else
+               flash[:notify] = display_errors(@location_item)
+               redirect_to edit_location_item(@location, @item)
+            end
+         else
+            flash[:notify] = display_errors(@item)
+            redirect_to edit_location_item(@location, @item)
+         end
       end
    end
    
