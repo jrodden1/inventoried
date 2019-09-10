@@ -2,6 +2,8 @@
 <%# refactor - need to make this into a table eventually %>
 <ul>
    <% @locations.each do |location| %>
-      <li><%= link_to  location.name, location_items_path(location) %></li>
+      <li><%= link_to  location.name, location_items_path(location) %>, <%= link_to  "Edit Location Name", edit_location_path(location) %>, <%= link_to  "Delete Location", location_path(location), method: :delete, data: { confirm: "Are you sure you want to delete #{location.name}?" } %>
    <% end %>
 </ul>
+
+<%= link_to  "Add a New Location", new_location_path %>
