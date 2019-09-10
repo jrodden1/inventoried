@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
-   before_action :set_location, only: [:show, :edit, :update, :delete] #sets @location for show, edit
+   before_action :set_location, only: [:show, :edit, :update, :destroy] #sets @location for show, edit
 
    def index
       @locations = @user.locations
@@ -49,6 +49,7 @@ class LocationsController < ApplicationController
    def destroy
       authorized?(resource_user_id: @location.user_id) do 
          if @location.items.empty?
+            #I can possible refactor this next part into a generic method with a block
             if @location.destroy
                flash[:notify] = "Location successfully deleted"
                redirect_to locations_path
