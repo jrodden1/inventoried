@@ -27,9 +27,7 @@ class LocationsController < ApplicationController
    end
    
    def show 
-      authorized?(resource_user_id: @location.user_id) do 
-         @items = @location.items
-      end
+      redirect_to location_items_path(@location)
    end
    
    def edit
@@ -75,5 +73,4 @@ private
    def set_location
       @location = Location.find_by_id(params[:id])
    end
-   
 end
