@@ -23,8 +23,9 @@ class ItemsController < ApplicationController
          if params[:existing_item].present?
             @item = Item.find_by_id(params[:existing_item][:id])
             if @item.id
-               @location_item = LocationItem.new(location_item_for_existing_params)
+               @location_item = LocationItem.new(location_item_params)
                @location_item.item_id = @item.id
+               #I may need to check to see if there are any other location_item rows in the db that match the same location_id and item_id - if so, validation fails,
                if @location_item.save 
                   flash[:notify] = "Your item was successfully created and added to #{@location.name}"
                   redirect_to location_items_path(@location)
@@ -77,10 +78,6 @@ private
 
    def location_item_params
       params.require(:location_item).permit(:location_id, :quantity)
-   end
-   
-   def location_item_for_existing_params
-      params.require(:location_item_for_existing).permit(:location_id, :quantity)
    end
 
    def set_location_by_location_id

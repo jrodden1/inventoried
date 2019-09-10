@@ -1,17 +1,23 @@
 <h1>Add Item to <%= @location.name %></h1>
 
-<h2>Add Existing Item</h2>
-<%= form_for @item, as: :existing_item, url: location_items_path(@location) do |f| %>
-   <%= f.collection_select :id, @user_items, :id, :name %>
+<% if @user_items.present? %>
+   <h2>Add Additional Stock of Existing Item to this Location</h2>
+   <p><em>*add additional stock of an item you have at other locations to this location. <br>
+      This does not remove or change stock of the item at the other location(s).
+   </em></p>
+   <%= form_for @item, as: :existing_item, url: location_items_path(@location) do |f| %>
+      <%= f.collection_select :id, @user_items, :id, :name %>
 
-   <%= fields_for @location_item, as: :location_item_for_existing do |loc_item| %>
-      <%= loc_item.hidden_field :location_id %>
-      <%= loc_item.label :quantity, "Quantity: " %>
-      <%= loc_item.number_field :quantity, step: 1 %>
+      <%= fields_for @location_item do |loc_item| %>
+         <%= loc_item.hidden_field :location_id %>
+         <%= loc_item.label :quantity, "Quantity: " %>
+         <%= loc_item.number_field :quantity, step: 1 %>
+      <% end %>
+
+   <%= f.submit "Add Existing Item to #{@location.name}" %>
    <% end %>
-
-  <%= f.submit "Add Item to #{@location.name}" %>   
+<h1>OR</h1>  
 <% end %>
-
-<h2>Add New Item</h2>
+<h2>Create a New Item and Add Stock to this Location</h2>
 <%= render partial: "item", locals: {item: @item, location: @location, location_item: @location_item} %>
+<%= link_to  "Return to item list for #{@location.name}", location_items_path(@location) %>
