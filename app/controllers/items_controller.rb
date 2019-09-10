@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
    before_action :set_location_by_location_id
+   before_action :set_item, only: [:show]
    
    def index
       
@@ -19,6 +20,7 @@ class ItemsController < ApplicationController
    end
    
    def create
+      #This create method should probably be cleaned up into some helper methods - looks kind of huuuuugee 
       authorized?(resource_user_id: @location.user_id) do 
          if params[:existing_item].present?
             @item = Item.find_by_id(params[:existing_item][:id])
@@ -59,7 +61,8 @@ class ItemsController < ApplicationController
       end
    end
    
-   def show 
+   def show
+      set_location_item
    end
    
    def edit 
@@ -82,6 +85,14 @@ private
 
    def set_location_by_location_id
       @location = Location.find_by_id(params[:location_id])
+   end
+
+   def set_item
+      @item = Item.find_by_id(params[:id])
+   end
+
+   def set_location_item
+      @location_item = LocationItem.find_by(location_id: params[:location_id], item_id: params[:id])
    end
 
 end

@@ -1,0 +1,8 @@
+<h2>Item Detail for: <%= @item.name %></h2>
+
+<h4>Quantity in Stock at <%= @location.name %>: <%= @location_item.quantity %></h4>
+
+<h4>Description:</h4>
+<p><%= @item.description %></p>
+
+<%= link_to  "Return to list of Items in #{@location.name}", location_items_path(@location) %>
