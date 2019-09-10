@@ -27,7 +27,9 @@ class LocationsController < ApplicationController
    end
    
    def show 
-      redirect_to location_items_path(@location)
+      authorized?(resource_user_id: @location.user_id) do 
+         redirect_to location_items_path(@location)
+      end
    end
    
    def edit
