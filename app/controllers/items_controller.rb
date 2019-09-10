@@ -88,8 +88,27 @@ class ItemsController < ApplicationController
       end
    end
    
-   def destroy
+   def destroy_location_item_only
+      # So my pickle here is this... I need an option to destory just the stock for an item AND an option to destroy the item completely from all stock at all locations.
+      binding.pry
+      authorized?(resource_user_id: @location.user_id) do 
+         if @location_item.destroy
+            flash[:notify] = "All stock has been removed for this location."
+            redirect_to location_items_path(@location)
+         else
+            flash[:notify] = display_errors(@location_item)
+            render :show
+         end
+      end
    end
+
+   def destroy_item_from_all_locations
+      #need to make sure that @item.destroy will destroy all the associated @location_item entries
+      authorized?(resource_user_id: @location.user_id) do 
+         #nothing right now.  Need to figure this out tomorrow -- may need to use .destroy_all? or what ever will ripple delete
+      end
+   end
+   
 
 private
    def item_params
