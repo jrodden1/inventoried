@@ -1,0 +1,12 @@
+<%= form_for item do |f| %>
+   <%= f.label :name, "Item Name: " %>
+   <%= f.text_field :name %><br>
+
+   <%= f.label :description, "Description (Optional): " %>
+   <%= f.text_area :description %><br>
+
+   <%= f.label :quantity, "Quantity: " %>
+   <%= f.number_field :quantity, step: 1 %>
+
+   <%= f.submit %>
+<% end %>
