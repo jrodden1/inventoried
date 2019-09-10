@@ -1,7 +1,7 @@
 class LocationsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
-   before_action :set_location, only: [:show, :edit] #sets @location for show, edit
+   before_action :set_location, only: [:show, :edit, :update, :delete] #sets @location for show, edit
 
    def index
       @locations = @user.locations
@@ -34,10 +34,11 @@ class LocationsController < ApplicationController
    end
    
    def update
-      create_dummy_location_for_checking
+      #create_dummy_location_for_checking
+      set_location
 
       authorized?(resource_user_id: @location.user_id) do 
-         set_location
+         #set_location
          if @location.update(name: location_params[:name])
             flash[:notify] = "Location name successfully updated!"
             redirect_to location_path(@location)
