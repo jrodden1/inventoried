@@ -27,7 +27,9 @@ class LocationsController < ApplicationController
    end
    
    def show 
-      authorized?(resource_user_id: @location.user_id)
+      authorized?(resource_user_id: @location.user_id) do 
+         @items = @location.items
+      end
    end
    
    def edit
