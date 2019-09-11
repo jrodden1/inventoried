@@ -6,3 +6,4 @@
 <p><%= @item.description %></p>
 
 <%= link_to  "Return to list of Items in #{@location.name}", location_items_path(@location) %>
+<%= link_to  "Delete this item from this location", delete_location_item_path(@location, @item), method: :delete, data: {confirm: "Are you sure you want to delete all stock of this item from this location?"} %>

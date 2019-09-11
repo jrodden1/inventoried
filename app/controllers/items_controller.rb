@@ -2,8 +2,8 @@ class ItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
    before_action :set_location_by_location_id
-   before_action :set_item, only: [:show, :edit, :update, :destory]
-   before_action :set_location_item, only: [:show, :edit, :update, :destory]
+   before_action :set_item, only: [:show, :edit, :update, :destroy_location_item_only]
+   before_action :set_location_item, only: [:show, :edit, :update, :destroy_location_item_only]
    
    def index
       
@@ -93,7 +93,7 @@ class ItemsController < ApplicationController
       binding.pry
       authorized?(resource_user_id: @location.user_id) do 
          if @location_item.destroy
-            flash[:notify] = "All stock has been removed for this location."
+            flash[:notify] = "All stock of this item has been removed from this location."
             redirect_to location_items_path(@location)
          else
             flash[:notify] = display_errors(@location_item)
@@ -107,6 +107,7 @@ class ItemsController < ApplicationController
       authorized?(resource_user_id: @location.user_id) do 
          #nothing right now.  Need to figure this out tomorrow -- may need to use .destroy_all? or what ever will ripple delete
       end
+      # DO NOT FORGET TO UPDATE routes.rb to reflect these new actions
    end
    
 
