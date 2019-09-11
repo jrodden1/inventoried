@@ -1,20 +1,33 @@
-<h2><%= @location.name %></h2>
-<%= link_to  "Edit Location Name", edit_location_path(@location) %>
-<%= form_tag location_path(@location), method: :delete do %>
-  <%= submit_tag "Delete #{@location.name}" %>
+<h2>List of All Items across All Locations</h2>
+
+<% if @items.empty? %>
+   <p>You currently have no items.  Start by adding an item.</p>
+<% else %>
+   <% @items.each do |item| %>
+   <h3><em>Item: <%= item.name %></em></h3>
+      <table>
+         <thead>
+            <tr>
+               <th>Location</th>
+               <th>Qty</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            <% item.location_items.each do |loc_item| %>
+               <tr>  
+                  <td><%= loc_item.location.name %></td>
+                  <td><%= loc_item.quantity %></td>
+               </tr>
+            <% end %>
+            <tr>
+               <td><strong>Total:</strong></td>
+               <td><strong><%= item.total_qty %></strong></td>
+            </tr>
+         </tbody>
+      </table>
+   <br>
+   <% end %>
 <% end %>
 
-<%# I should turn this into a table later - refactor %>
-<h4>List of Items in this location</h4>
-<ul>
-   <% if @items.empty? %>
-      <p>There are currently no items in this location</p>
-   <% else %>
-      <% @items.each do |item| %>
-         <li><%= link_to  item.name, location_item_path(@location, item) %>, Qty: <%= @location.item_quantity(item) %></li>
-      <% end %>   
-   <% end %>
-</ul>
-
-<%= link_to  "Add Item to #{@location.name}", new_location_item_path(@location) %>
-<%= link_to  "Return to List of Locations", locations_path %>
+<%= link_to  "Go to List of Locations", locations_path %>

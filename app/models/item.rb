@@ -4,5 +4,10 @@ class Item < ApplicationRecord
    belongs_to :user
 
    validates :name, presence: true 
+
+   def total_qty
+      self.location_items.map {|loc_item| loc_item.quantity}.sum
+   end
+   
    
 end
