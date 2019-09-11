@@ -13,7 +13,7 @@ class ApplicationController < ActionController::Base
       if !!session[:user_id] 
          true
       else 
-         flash[:notify] = "You must be logged in to view this resource"
+         flash[:alert] = "You must be logged in to view this resource"
          redirect_to login_path
       end
    end
@@ -22,7 +22,7 @@ class ApplicationController < ActionController::Base
       if current_user_id == resource_user_id
          yield if block_given?
       else
-         flash[:notify] = "You are not authorized to perform this action"
+         flash[:alert] = "You are not authorized to perform this action"
 
          if is_logged_in? 
             redirect_to redirect_if_logged_in_path
