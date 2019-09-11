@@ -3,7 +3,7 @@
 <%= form_tag items_path, method: :get do %>
    <%= text_field_tag 'query', nil, placeholder: 'Search for item by name here...'%>
    <%= submit_tag "Search" %>
-   <%= button_to "Reset", action: :index %>
+   <%= link_to  "Reset", items_path %>
 <% end %>
 
 <%# This should be refactored into a helper or a partial %>
