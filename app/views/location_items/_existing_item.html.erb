@@ -1,0 +1,16 @@
+<h2>Add Additional Stock of Existing Item to this Location</h2>
+<p><em>*add additional stock of an item you have at other locations to this location. <br>
+   This does not remove or change stock of the item at the other location(s).
+</em></p>
+<%= form_for item, as: :existing_item, url: location_items_path(location) do |f| %>
+   <%= f.collection_select :id, user_items, :id, :name %>
+
+   <%= fields_for location_item do |loc_item| %>
+      <%= loc_item.hidden_field :location_id %>
+      <%= loc_item.label :quantity, "Quantity: " %>
+      <%= loc_item.number_field :quantity, step: 1 %>
+   <% end %>
+
+<%= f.submit "Add Existing Item to #{location.name}" %>
+<% end %>
+<h1>OR</h1> 

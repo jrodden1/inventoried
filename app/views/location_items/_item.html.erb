@@ -1,0 +1,15 @@
+<%= form_for item, url: url do |f| %>
+   
+   <%= f.label :name, "Item Name: " %>
+   <%= f.text_field :name %><br>
+
+   <%= f.label :description, "Description (Optional): " %>
+   <%= f.text_area :description %><br>
+
+   <%= fields_for location_item do |loc_item| %>
+      <%= loc_item.hidden_field :location_id %>
+      <%= loc_item.label :quantity, "Quantity: " %>
+      <%= loc_item.number_field :quantity, step: 1 %>
+   <% end %>
+   <%= f.submit %>
+<% end %>
