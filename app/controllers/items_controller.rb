@@ -25,9 +25,11 @@ class ItemsController < LocationItemsController
    end
    
    def show
+      authorized?(resource_user_id: @item.user.id, redirect_if_logged_in_path: items_path) do
       #show the item itself and all the locations it is in (with associated quantities) Display total amount 
       #i already have @item at this point because of before_action
-      @locations = @item.locations
+         @locations = @item.locations
+      end
    end
    
    def edit 

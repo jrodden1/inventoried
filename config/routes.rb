@@ -9,7 +9,7 @@ Rails.application.routes.draw do
 
   resources :users, except: [:new, :delete]
   resources :locations do
-    resources :items, except: [:delete]
+    resources :location_items, except: [:delete], as: :items
   end
   resources :items, only: [:index, :show]
   #below will be my custom delete route -- if needed to completely delete an item from all locations.  
