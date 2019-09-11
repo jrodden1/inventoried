@@ -1,8 +1,19 @@
 <h2>List of All Items across All Locations</h2>
 
+<%= form_tag items_path, method: :get do %>
+   <%= text_field_tag 'query', nil, placeholder: 'Search for item by name here...'%>
+   <%= submit_tag "Search" %>
+   <%= button_to "Reset", action: :index %>
+<% end %>
+
+<%# This should be refactored into a helper or a partial %>
 <% if @items.empty? %>
    <p>You currently have no items.  Start by adding an item.</p>
 <% else %>
+   <% if @no_results %>
+     <p><font color="red"><em><strong><%= @no_results %></strong></em></font></p>
+   <% end %>
+
    <% @items.each do |item| %>
    <h3><em>Item: <%= item.name %></em></h3>
       <table>
@@ -16,7 +27,7 @@
          <tbody>
             <% item.location_items.each do |loc_item| %>
                <tr>  
-                  <td><%= loc_item.location.name %></td>
+                  <td> <%= link_to  loc_item.location.name, location_item_path(loc_item.location, item) %></td>
                   <td><%= loc_item.quantity %></td>
                </tr>
             <% end %>

@@ -4,8 +4,16 @@ class ItemsController < LocationItemsController
    before_action :set_item, only: [:show, :edit, :update, :destroy_item_from_all_locations]
 
    def index
-      #display all items that belong to me regardless of location - display total possibly?
-      @items = @user.items
+      if params[:query].present?
+         @items = Item.where("user_id = ? AND name LIKE ?", @user.id, "%#{params[:query]}%")
+         
+         if @items.empty?
+            @no_results = "Your search returned no results"
+            @items = @user.items
+         end
+      else 
+         @items = @user.items
+      end
    end
    
    def new
