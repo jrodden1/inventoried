@@ -15,7 +15,7 @@
    <% end %>
 
    <% @items.each do |item| %>
-   <h3><em>Item: <%= item.name %></em></h3>
+   <h3><em>Item: <%= link_to item.name, item_path(item) %></em></h3>
       <table>
          <thead>
             <tr>

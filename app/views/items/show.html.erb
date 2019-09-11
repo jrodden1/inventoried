@@ -1,10 +1,34 @@
 <%# This needs refactored to support the show Items route -- this is the old partial for the location_items show route %>
 <h2>Item Detail for: <%= @item.name %></h2>
+   <table>
+      <thead>
+         <tr>
+            <th>Location</th>
+            <th>Qty</th>
+         </tr>
+      </thead>
 
-<h4>Quantity in Stock at <%= @location.name %>: <%= @location_item.quantity %></h4>
-
+      <tbody>
+         <% @locations.each do |location| %>
+            <tr>
+               <td><%= link_to location.name, location_item_path(location, @item) %></td>
+               <td><%= location.item_quantity(@item) %></td>
+            </tr>
+         <% end %>
+         <tr>
+            <td></td>
+            <td></td>
+         </tr>
+         <tr>
+            <td>Total across all locations:</td>
+            <td><%= @item.total_qty %></td>
+         </tr>
+      </tbody>
+   </table>
 <h4>Description:</h4>
 <p><%= @item.description %></p>
 
-<%= link_to  "Return to list of Items in #{@location.name}", location_items_path(@location) %>
-<%= link_to  "Delete this item from this location", delete_location_item_path(@location, @item), method: :delete, data: {confirm: "Are you sure you want to delete all stock of this item from this location?"} %>
+
+
+<%= link_to  "Return to list of All Items", items_path %>
+<%# need to add a Delete this item from all locations link %>

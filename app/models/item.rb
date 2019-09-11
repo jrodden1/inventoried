@@ -7,6 +7,7 @@ class Item < ApplicationRecord
 
    def total_qty
       self.location_items.map {|loc_item| loc_item.quantity}.sum
+      #this is not super efficient - hits the DB a lot :/ Refactor
    end
    
    

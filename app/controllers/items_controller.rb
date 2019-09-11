@@ -26,6 +26,8 @@ class ItemsController < LocationItemsController
    
    def show
       #show the item itself and all the locations it is in (with associated quantities) Display total amount 
+      #i already have @item at this point because of before_action
+      @locations = @item.locations
    end
    
    def edit 
