@@ -15,11 +15,11 @@ class SessionsController < ApplicationController
         flash[:notify] = "Successfully Logged In!"
         redirect_to locations_path
       else
-        flash[:notify] = "Incorrect Password"
+        flash[:alert] = "Incorrect Password"
         redirect_to login_path
       end
     else
-      flash[:notify] = "Email not found"
+      flash[:alert] = "Email not found"
       redirect_to login_path
     end
 

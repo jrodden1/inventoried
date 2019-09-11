@@ -13,7 +13,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to locations_path
     else
-      flash[:notify] = "Errors detected!\n#{display_errors(@user)}"
+      flash[:alert] = "Errors detected!\n#{display_errors(@user)}"
       render :signup
     end
   end

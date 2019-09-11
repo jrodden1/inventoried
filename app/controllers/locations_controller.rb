@@ -20,7 +20,7 @@ class LocationsController < ApplicationController
             flash[:notify] = "#{@location.name} successfully created!"
             redirect_to location_path(@location)
          else
-            flash[:notify] = display_errors(@location)
+            flash[:alert] = display_errors(@location)
             render :new
          end
       end

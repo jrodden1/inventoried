@@ -23,6 +23,7 @@
       }
 
       #flash-notice {
+        display: inline;
         border-radius: 15px;
         padding: 10px; 
       }
@@ -47,24 +48,29 @@
           <% end %>
         </ul>
       </div>
-    </nav>
-    <% if flash[:notify].present? %>
-      <div class="container container">
-        <p class="center green lighten-1 white-text" id="flash-notice"><%= flash[:notify] %></p>
-      </div>  
-    <% end %>
-    <% if flash[:alert].present? %>
-      <div class="container container">
-        <p class="center green lighten-1 white-text" id="flash-notice"><%= flash[:notify] %></p>
-      </div>  
-    <% end %>
-    <%= yield %>
-    <br>
-    <% if session[:user_id].present? %>
-      <p>You are currently logged in as: User ID: <%= session[:user_id] %> </p>
-    <% else %>
-      <p>You are currently not logged in.</p>
-    <% end %>
+    </nav><br>
+    <div class="container">  
+      <% if flash[:notify].present? %>  
+        <div class="center">  
+          <p class="green lighten-1 white-text" id="flash-notice"><%= flash[:notify] %></p>
+        </div>
+      <% end %>
+
+      <% if flash[:alert].present? %>
+        <div class="center">  
+          <p class="red lighten-1 white-text" id="flash-notice"><%= flash[:alert] %></p>
+        </div>
+      <% end %>
+
+      <%= yield %>
+      <br>
+
+      <% if is_logged_in? %>
+        <p class="center">You are currently logged in as: <%= current_user.email %> </p>
+      <% else %>
+        <p class="center">You are currently not logged in.</p>
+      <% end %>
+    </div>
     <!--JavaScript at end of body for optimized loading-->
     <script type="text/javascript" src="js/materialize.min.js"></script>
   </body>
