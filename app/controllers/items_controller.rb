@@ -102,6 +102,7 @@ class ItemsController < ApplicationController
       end
    end
 
+   #Add this funcationality if later - REFACTOR -- probably place it under a route of just localhost:3000/items - which will show all the items owned and which locations they are in.  
    def destroy_item_from_all_locations
       #need to make sure that @item.destroy will destroy all the associated @location_item entries
       authorized?(resource_user_id: @location.user_id) do 
