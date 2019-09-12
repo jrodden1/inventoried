@@ -6,33 +6,28 @@ class SessionsController < ApplicationController
 
   def create
     binding.pry
-    
-    # @user = User.find_or_create_by(uid: auth['uid']) do |u|
-    #   u.name = auth['info']['name']
-    #   u.email = auth['info']['email']
-    #   u.image = auth['info']['image']
-    # end
-  
-    # session[:user_id] = @user.id
-    
-    @user = User.find_by(email: params[:user][:email])
-
-    if @user
-      authenticated = @user.authenticate(params[:user][:password])
-
-      if authenticated
+    if auth 
+      @user = User.find_or_create_by_facebook_omniauth(auth) 
+      if @user.id 
         session[:user_id] = @user.id
         flash[:notify] = "Successfully Logged In!"
         redirect_to locations_path
       else
-        flash[:alert] = "Incorrect Password"
-        redirect_to login_path
+        flash[:alert] = display_errors(@user)
+        render :login
       end
-    else
-      flash[:alert] = "Email not found"
-      redirect_to login_path
+    else 
+      #login with Inventoried account
+      @user = User.find_by(email: params[:user][:email])
+      if @user && @user.authenticate(params[:user][:password])
+        session[:user_id] = @user.id
+        flash[:notify] = "Successfully Logged In!"
+        redirect_to locations_path
+      else
+        flash[:alert] = "Incorrect Username or Password"
+        render :login
+      end
     end
-
   end
 
   #aka destroy
