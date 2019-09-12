@@ -1,6 +1,8 @@
 <h1>Sessions#login</h1>
 <p>Find me in app/views/sessions/login.html.erb</p>
 
+<%= link_to 'Log in with Facebook!', '/auth/facebook' %>
+
 <%= form_for @user, url: login_path do |f| %>
    <%= f.label :email, "Email Address: " %>
    <%= f.email_field :email %><br>

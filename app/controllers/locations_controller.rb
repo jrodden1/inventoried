@@ -42,7 +42,7 @@ class LocationsController < ApplicationController
             flash[:notify] = "Location name successfully updated!"
             redirect_to location_path(@location)
          else
-            flash[:notify] = display_errors(@location)
+            flash[:alert] = display_errors(@location)
             redirect_to location_path(@location)
          end    
       end
@@ -56,11 +56,11 @@ class LocationsController < ApplicationController
                flash[:notify] = "Location successfully deleted"
                redirect_to locations_path
             else
-               flash[:notify] = display_errors(@location)
+               flash[:alert] = display_errors(@location)
                render :show
             end
          else
-            flash[:notify] = "This location still contains items.  Please delete all items belonging to this location before deleting this location"
+            flash[:alert] = "This location still contains items.  Please delete all items belonging to this location before deleting this location"
             redirect_to location_path(@location)
          end
       end

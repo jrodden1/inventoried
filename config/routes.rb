@@ -5,7 +5,9 @@ Rails.application.routes.draw do
   get '/signup', to: "users#signup"
   get '/login', to: "sessions#login"
   post '/login', to: "sessions#create"
+  get '/auth/facebook/callback' => 'sessions#create'
   delete '/locations/:location_id/items/:id', to: "location_items#destroy_location_item_only", as: "delete_location_item"
+
 
   resources :users, except: [:new, :delete]
   resources :locations do
