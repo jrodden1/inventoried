@@ -7,8 +7,8 @@
 %>
 <h2 class="center"><%= @location.name %></h2>
 <div class="center">
+   <%= link_to  "Add Item to #{@location.name}", new_location_item_path(@location), class: "btn brown darken-1" %>
    <%= link_to  "Edit Location Name", edit_location_path(@location), class: "btn brown darken-1" %>
-   <%= link_to  "View Location list", edit_location_path(@location), class: "btn brown darken-1" %>
    <%= link_to  "Delete", location_path(@location), method: :delete, data: { confirm: "Are you sure you want to delete #{@location.name}?" }, class: "btn brown darken-1" %>         
 </div><br>
 
@@ -21,8 +21,8 @@
    <table class="striped">
       <thead>
       <tr>
-         <th>Item Name</th>
-         <th>Qty</th>
+         <th style="padding-left: 5%">Item Name</th>
+         <th class="center">Qty</th>
          <th></th>
          <th></th>
          <th></th>
@@ -31,17 +31,13 @@
       <tbody>
       <% @items.each do |item| %>
          <tr>
-            <td><%= item.name %></td>
-            <td><%= @location.item_quantity(item) %></td>
-            <td><%= link_to "View", location_item_path(@location, item), class: "btn brown darken-1" %></td>
-            <td><%= link_to "Edit", edit_location_item_path(@location, item), class: "btn brown darken-1" %></td>
-            <td><%= link_to "Delete", delete_location_item_path(@location, item), method: :delete, data: { confirm: "Are you sure you want to delete #{item.name} and all its stock from #{@location.name}?" }, class: "btn red darken-2" %></td>
+            <td style="padding-left: 5%"><%= item.name %></td>
+            <td class="center"><%= @location.item_quantity(item) %></td>
+            <td class="center"><%= link_to "View", location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td class="center"><%= link_to "Edit", edit_location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td class="center"><%= link_to "Delete", delete_location_item_path(@location, item), method: :delete, data: { confirm: "Are you sure you want to delete #{item.name} and all its stock from #{@location.name}?" }, class: "btn red darken-2" %></td>
          </tr>
       <% end %>
       </tbody>
    </table>
 <% end %> 
-
-
-<%= link_to  "Add Item to #{@location.name}", new_location_item_path(@location) %>
-<%= link_to  "Return to List of Locations", locations_path %>

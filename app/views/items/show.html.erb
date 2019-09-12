@@ -7,37 +7,38 @@
       ]
    } 
 %>
-<%# This needs refactored to support the show Items route -- this is the old partial for the location_items show route %>
-<h2>Item Detail for: <%= @item.name %></h2>
-   <table>
-      <thead>
-         <tr>
-            <th>Location</th>
-            <th>Qty</th>
-         </tr>
-      </thead>
 
-      <tbody>
-         <% @locations.each do |location| %>
+<h2 class="center"><%= @item.name %> Details</h2>
+<div class="container">
+<% if @item.description.present? %>
+   <h5 class="center">Description:</h5>
+   <p class="center"><%= @item.description %></p><br>
+<% end %>
+   <div class="container">
+      <table>
+         <thead>
             <tr>
-               <td><%= link_to location.name, location_item_path(location, @item) %></td>
-               <td><%= location.item_quantity(@item) %></td>
+               <th style="padding-left: 5%">Location</th>
+               <th class="center">Qty</th>
             </tr>
-         <% end %>
-         <tr>
-            <td></td>
-            <td></td>
-         </tr>
-         <tr>
-            <td>Total across all locations:</td>
-            <td><%= @item.total_qty %></td>
-         </tr>
-      </tbody>
-   </table>
-<h4>Description:</h4>
-<p><%= @item.description %></p>
+         </thead>
 
-
-
-<%= link_to  "Return to list of All Items", items_path %>
-<%# need to add a Delete this item from all locations link %>
+         <tbody>
+            <% @locations.each do |location| %>
+               <tr>
+                  <td style="padding-left: 5%"><%= link_to location.name, location_item_path(location, @item) %></td>
+                  <td class="center"><%= location.item_quantity(@item) %></td>
+               </tr>
+            <% end %>
+            <tr>
+               <td></td>
+               <td></td>
+            </tr>
+            <tr>
+               <td style="padding-left: 5%"><b>Total across all locations:</b></td>
+               <td class="center"><b><%= @item.total_qty %></b></td>
+            </tr>
+         </tbody>
+      </table>
+   </div>
+</div>
