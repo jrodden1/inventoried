@@ -5,6 +5,7 @@ class ItemsController < LocationItemsController
 
    def index
       if params[:query].present?
+         #create scope method out of this line below. needs chainable - with like sort for example.
          @items = Item.where("user_id = ? AND name LIKE ?", @user.id, "%#{params[:query]}%")
          
          if @items.empty?
