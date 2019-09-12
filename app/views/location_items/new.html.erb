@@ -1,4 +1,4 @@
-<h1>Add Item to <%= @location.name %></h1>
+<h2 class="center">Add Item to <%= @location.name %></h2>
 
 <% if @user_items.present? %>
    <%= render partial: "existing_item", locals: {item: @item, location: @location, location_item: @location_item, user_items: @user_items} %> 
