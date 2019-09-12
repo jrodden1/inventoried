@@ -13,11 +13,7 @@ class LocationItemsController < ApplicationController
    def new
       @item = @location.items.build
       @location_item = @location.location_items.build
-      #this could use some refactoring but it works. 
-      @user_items = Item.all.select do |item|
-         item.users.first.id == @user.id
-         #I don't like this piece of code -- need to refactor this so that there is a belongs_to of item to user
-      end.reject {|item| @location.items.find_by(name: item.name)}
+      @user_items = @user.items
    end
    
    def create
