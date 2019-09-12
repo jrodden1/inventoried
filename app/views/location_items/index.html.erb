@@ -2,19 +2,38 @@
 <div class="center">
    <%= link_to  "Edit Location Name", edit_location_path(@location), class: "btn brown darken-1" %>
    <%= link_to  "Delete", location_path(@location), method: :delete, data: { confirm: "Are you sure you want to delete #{@location.name}?" }, class: "btn brown darken-1" %>         
-</div>
+</div><br>
 
-<%# I should turn this into a table later - refactor %>
-<h4>List of Items in this location</h4>
-<ul>
-   <% if @items.empty? %>
-      <p>There are currently no items in this location</p>
-   <% else %>
+<% if @items.empty? %>
+   <h6 class="center">
+      You currently have no items at this location to display.<br>
+      Click on the Add Item to <%= @location.name %> button.
+   </h6>
+<% else %>
+   <table class="striped">
+      <thead>
+      <tr>
+         <th>Item Name</th>
+         <th>Qty</th>
+         <th></th>
+         <th></th>
+         <th></th>
+      </tr>
+      </thead>
+      <tbody>
       <% @items.each do |item| %>
-         <li><%= link_to  item.name, location_item_path(@location, item) %>, Qty: <%= @location.item_quantity(item) %></li>
-      <% end %>   
-   <% end %>
-</ul>
+         <tr>
+            <td><%= item.name %></td>
+            <td><%= @location.item_quantity(item) %></td>
+            <td><%= link_to "View", location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td><%= link_to "Edit", edit_location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td><%= link_to "Delete", delete_location_item(@location, item), method: :delete, data: { confirm: "Are you sure you want to delete #{item.name} and all its stock from #{@location.name}?" }, class: "btn red darken-2" %></td>
+         </tr>
+      <% end %>
+      </tbody>
+   </table>
+<% end %> 
+
 
 <%= link_to  "Add Item to #{@location.name}", new_location_item_path(@location) %>
 <%= link_to  "Return to List of Locations", locations_path %>
