@@ -1,13 +1,24 @@
-<h1>Sessions#login</h1>
-<p>Find me in app/views/sessions/login.html.erb</p>
+<div class="center">
+   <%= link_to  image_tag("login_with_facebook.png", size: "300x50") , '/auth/facebook' %>   
+</div>
 
-<%= link_to 'Log in with Facebook!', '/auth/facebook' %>
+<h4 class="center">OR</h2>
 
-<%= form_for @user, url: login_path do |f| %>
-   <%= f.label :email, "Email Address: " %>
-   <%= f.email_field :email %><br>
-   <%= f.label :password, "Password: " %>
-   <%= f.password_field :password %><br><br>
+<div class="center container">
+   <h5>Your Inventoried Account</h5><br>
+</div>
 
-   <%= f.submit "Log In" %>
-<% end %>
+<div class="container">
+   <div class="container">
+      <%= form_for @user, url: login_path do |f| %>
+         <%= f.label :email, "Email" %>
+         <%= f.email_field :email %><br>
+   
+         <%= f.label :password, "Password" %>
+         <%= f.password_field :password %><br><br>
+         <div class="center">   
+            <%= f.submit "Log In", class: "btn brown darken-1" %>
+         </div>
+      <% end %>
+   </div>
+</div>
