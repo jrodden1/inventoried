@@ -1,8 +1,8 @@
-<h2><%= @location.name %></h2>
-<%= link_to  "Edit Location Name", edit_location_path(@location) %>
-<%= form_tag location_path(@location), method: :delete do %>
-  <%= submit_tag "Delete #{@location.name}" %>
-<% end %>
+<h2 class="center"><%= @location.name %></h2>
+<div class="center">
+   <%= link_to  "Edit Location Name", edit_location_path(@location), class: "btn brown darken-1" %>
+   <%= link_to  "Delete", location_path(@location), method: :delete, data: { confirm: "Are you sure you want to delete #{@location.name}?" }, class: "btn brown darken-1" %>         
+</div>
 
 <%# I should turn this into a table later - refactor %>
 <h4>List of Items in this location</h4>
