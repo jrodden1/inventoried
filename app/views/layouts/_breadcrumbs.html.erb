@@ -1,0 +1,9 @@
+<nav>
+   <div class="nav-wrapper brown darken-1">
+      <div class="col s12">
+         <% breadcrumbs.each.with_index(1) do |bc_hash, index| %>
+            <a style="padding-left: 10px" href=<%= bc_hash[:url] %> class="breadcrumb"><%= bc_hash[:name] %></a>
+         <% end %>
+      </div>
+   </div>
+</nav>

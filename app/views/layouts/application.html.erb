@@ -53,13 +53,13 @@
       <% if flash[:notify].present? %>  
         <div class="center">  
           <p class="green lighten-1 white-text" id="flash-notice"><%= flash[:notify] %></p>
-        </div>
+        </div><br>
       <% end %>
 
       <% if flash[:alert].present? %>
         <div class="center">  
           <p class="red lighten-1 white-text" id="flash-notice"><%= flash[:alert] %></p>
-        </div>
+        </div><br>
       <% end %>
 
       <%= yield %>

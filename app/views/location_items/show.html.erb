@@ -1,3 +1,12 @@
+<%= render partial: "layouts/breadcrumbs", locals: {
+   breadcrumbs: [
+      {url: locations_path, name: "Locations"}, 
+      {url: location_path(@location), name: @location.name},
+      {url: location_item_path(@location, @item), name: @item.name},
+      {url: location_item_path(@location, @item), name: "Stock"}
+      ]
+   } 
+%>
 <h2>Item Detail for: <%= @item.name %></h2>
 
 <h4>Quantity in Stock at <%= @location.name %>: <%= @location_item.quantity %></h4>

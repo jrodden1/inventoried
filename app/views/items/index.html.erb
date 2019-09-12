@@ -1,3 +1,9 @@
+<%= render partial: "layouts/breadcrumbs", locals: {
+   breadcrumbs: [
+      {url: items_path, name: "All Items"}
+      ]
+   } 
+%>
 <h2>List of All Items across All Locations</h2>
 
 <%= form_tag items_path, method: :get do %>

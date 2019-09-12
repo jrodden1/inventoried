@@ -1,1 +1,10 @@
+<%= render partial: "layouts/breadcrumbs", locals: {
+   breadcrumbs: [
+      {url: locations_path, name: "Locations"}, 
+      {url: location_path(@location), name: @location.name},
+      {url: location_item_path(@location, @item), name: @item.name},
+      {url: edit_location_item_path(@location, @item), name: "Edit"}
+      ]
+   } 
+%>
 <%= render partial: "item", locals: {item: @item, url: location_item_path(@location, @item), location_item: @location_item} %>

@@ -1,10 +1,12 @@
 <div class="container">
-   <%= form_for location do |f| %>
-      <%= f.hidden_field :user_id, value: user.id %>
-      <%= f.label :name, "Location Name: " %>
-      <%= f.text_field :name %><br>
-      <div class="center">
-            <%= f.submit nil, class: "btn brown darken-1" %>   
-      </div>
-   <% end %>
+   <div class="container">
+      <%= form_for location do |f| %>
+         <%= f.hidden_field :user_id, value: user.id %>
+         <%= f.label :name, "Location Name: " %>
+         <%= f.text_field :name %><br>
+         <div class="center">
+               <%= f.submit nil, class: "btn brown darken-1" %>   
+         </div>
+      <% end %>
+   </div>
 </div>
