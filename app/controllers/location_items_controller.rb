@@ -6,53 +6,76 @@ class LocationItemsController < ApplicationController
    before_action :set_location_item, only: [:show, :edit, :update, :destroy_location_item_only]
    
    def index
-      
       @items = @location.items
    end
    
    def new
       @item = @location.items.build
       @location_item = @location.location_items.build
-      @user_items = @user.items
+      #this next bit of logic will only retrieve the items that the user owns that are currently not in this location
+      #first grab all the ids of the items in this location
+      location_item_ids = @location.items.map {|item| item.id}
+      #then reject any of the user owned items that are in this location already so I can't add an existing item as a dupe
+      @user_items = @user.items.reject do |uitem|
+         location_item_ids.find {|item_id| uitem.id == item_id}
+      end
    end
    
    def create
       #This create method should probably be cleaned up into some helper methods - looks kind of huuuuugee 
       authorized?(resource_user_id: @location.user_id) do 
+         #check to see if I'm creating a new location item from an existing item that the user owns (just not at this location)
          if params[:existing_item].present?
+            #if so, then find the existing item id that the user picked
             @item = Item.find_by_id(params[:existing_item][:id])
             if @item.id
+               #if the item is found, then make a new location_items record to record the quantity of that item and that it is also at this location now too. 
                @location_item = LocationItem.new(location_item_params)
                @location_item.item_id = @item.id
                #I may need to check to see if there are any other location_item rows in the db that match the same location_id and item_id - if so, validation fails,
                if @location_item.save 
+                  #If the location item entry saves, then tell the user it was successful and redirect to that location_item's path
                   flash[:notify] = "Your item was successfully created and added to #{@location.name}"
                   redirect_to location_items_path(@location)
                else
-                  flash[:notify] = display_errors(@location_item)
+                  #if something went wrong with the saving of the location_item, display the errors to user and render out the new view
+                  flash[:alert] = display_errors(@location_item)
                   render :new
                end
             else
-               flash[:notify] = display_errors(@item)
+               #if something went wrong with the saving of the item, display the errors to user and render out the new view
+               flash[:alert] = display_errors(@item)
                render :new
             end
-
+         #check to see if I'm dealing with a new item next
          elsif params[:item].present?
-            @item = Item.new(item_params)
-
-            if @item.save
-               @location_item = LocationItem.new(location_item_params)
-               @location_item.item_id = @item.id
-               if @location_item.save 
-                  flash[:notify] = "Your item was successfully created and added to #{@location.name}"
-                  redirect_to location_items_path(@location)
+            @item = @user.items.build(item_params)
+            
+            #check to see if someone is trying to use the add new item box to add an item that already exists with the same name. 
+            dupe_found = @user.items.find {|uitem| uitem.name == @item.name}
+            if dupe_found
+               flash[:alert] = "An item by that name already exists in this location. Edit the quantity."
+               redirect_to location_path(@location)
+            else
+               #otherwise, save the item first 
+               if @item.save
+                  # if the item saves, then create a location item entry and link it to this item and location
+                  @location_item = LocationItem.new(location_item_params)
+                  @location_item.item_id = @item.id
+                  if @location_item.save 
+                     #if the location item saves, then redirect the user to the location_items path and let them know it saved. 
+                     flash[:notify] = "Your item was successfully created and added to #{@location.name}"
+                     redirect_to location_items_path(@location)
+                  else
+                     #if something went wrong with the saving of the location_item, display the errors to user and render out the new view
+                     flash[:alert] = display_errors(@location_item)
+                     render :new
+                  end
                else
-                  flash[:notify] = display_errors(@location_item)
+                  #if something went wrong with the saving of the item, display the errors to user and render out the new view
+                  flash[:alert] = display_errors(@item)
                   render :new
                end
-            else
-               flash[:notify] = display_errors(@item)
-               render :new
             end
          end
       end
@@ -85,7 +108,7 @@ class LocationItemsController < ApplicationController
    end
    
    def destroy_location_item_only
-      # So my pickle here is this... I need an option to destory just the stock for an item AND an option to destroy the item completely from all stock at all locations.
+      #this will only destroy the location_item entry for the item (essentially just wiping out the stock of this item at a location); does not delete the item itself. 
       authorized?(resource_user_id: @location.user_id) do 
          if @location_item.destroy
             flash[:notify] = "All stock of this item has been removed from this location."
@@ -99,7 +122,7 @@ class LocationItemsController < ApplicationController
 
 private
    def item_params
-      params.require(:item).permit(:name, :description)
+      params.require(:item).permit(:name, :description, :user_id)
    end
 
    def location_item_params

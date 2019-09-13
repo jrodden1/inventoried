@@ -6,6 +6,8 @@
    <%= f.label :description, "Description (Optional): " %>
    <%= f.text_area :description %><br>
 
+   <%= f.hidden_field :user_id %>
+
    <%= fields_for location_item do |loc_item| %>
       <%= loc_item.hidden_field :location_id %>
       <%= loc_item.label :quantity, "Quantity: " %>
