@@ -49,15 +49,16 @@ class LocationItemsController < ApplicationController
             end
          #check to see if I'm dealing with a new item next
          elsif params[:item].present?
-            @item = @user.items.build(item_params)
-            
+            @item = Item.new(item_params)
+
             #check to see if someone is trying to use the add new item box to add an item that already exists with the same name. 
             dupe_found = @user.items.find {|uitem| uitem.name == @item.name}
             if dupe_found
                flash[:alert] = "An item by that name already exists in this location. Edit the quantity."
                redirect_to location_path(@location)
             else
-               #otherwise, save the item first 
+               #otherwise, set the new item to belong to the current user and save the item first 
+               @item.user = @user
                if @item.save
                   # if the item saves, then create a location item entry and link it to this item and location
                   @location_item = LocationItem.new(location_item_params)
