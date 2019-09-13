@@ -6,5 +6,10 @@
       {url: edit_location_item_path(@location, @item), name: "Edit"}
       ]
    } 
-%>
-<%= render partial: "item", locals: {item: @item, url: location_item_path(@location, @item), location_item: @location_item} %>
+%><br>
+
+<div class="container">
+   <div class="container">
+      <%= render partial: "item", locals: {item: @item, url: location_item_path(@location, @item), location_item: @location_item} %>
+   </div>
+</div>
