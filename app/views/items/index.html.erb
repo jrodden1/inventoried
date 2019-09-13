@@ -4,14 +4,27 @@
       ]
    } 
 %>
-<h2>List of All Items across All Locations</h2>
-
-<%= form_tag items_path, method: :get do %>
-   <%= text_field_tag 'query', nil, placeholder: 'Search for item by name here...'%>
-   <%= submit_tag "Search" %>
-   <%= link_to  "Reset", items_path %>
-<% end %>
-
+<h2 class="center">List of All Items</h2>
+<p class="center"><em>Across all your locations</em></p>
+<div class="row">
+   <div class="col s6 offset-s3 center">
+      <%= form_tag items_path, method: :get do %>
+         <%= text_field_tag 'query', nil, placeholder: 'Search for items by name here...'%>
+         <%= submit_tag "Search", class: "btn brown darken-1" %>
+         <%= link_to  "Reset", items_path, class: "btn red darken-1"%>
+         <p>Sort: 
+               <label>
+               <input class="with-gap" name="order" type="radio" value="asc" checked />
+               <span>Alphabetical (A-Z)</span>
+               </label>
+               <label>
+               <input class="with-gap" name="order" type="radio" value="desc" />
+               <span>Reverse Alphabetical (Z-A)</span>
+               </label>
+            </p>
+      <% end %>
+   </div>
+</div>
 <%# This should be refactored into a helper or a partial %>
 <% if @items.empty? %>
    <p>You currently have no items.  Start by adding an item.</p>
@@ -21,7 +34,10 @@
    <% end %>
 
    <% @items.each do |item| %>
-   <h3><em>Item: <%= link_to item.name, item_path(item) %></em></h3>
+   <div style="border: 3px solid #6D4C41;; padding: 1%">
+      
+   
+   <h5><em>Item: <%= link_to item.name, item_path(item) %></em></h5>
       <table>
          <thead>
             <tr>
@@ -43,8 +59,8 @@
             </tr>
          </tbody>
       </table>
+   </div>
    <br>
    <% end %>
-<% end %>
 
-<%= link_to  "Go to List of Locations", locations_path %>
+<% end %>

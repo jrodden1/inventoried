@@ -5,7 +5,8 @@ class Item < ApplicationRecord
 
    validates :name, presence: true 
 
-   scope :search, ->(user_id, query) { where("user_id = ? AND name LIKE ?", user_id, "%#{query}%") }
+   #scope :search, ->(user_id, query) { where("user_id = ? AND name LIKE ?", user_id, "%#{query}%") }
+   scope :search, ->(user_id, query) { where("user_id = ? AND lower(name) LIKE ?", user_id, "%#{query.downcase}%") }
    
    def total_qty
       self.location_items.map {|loc_item| loc_item.quantity}.sum

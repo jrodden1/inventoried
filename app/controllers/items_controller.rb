@@ -4,16 +4,17 @@ class ItemsController < LocationItemsController
    before_action :set_item, only: [:show, :edit, :update, :destroy_item_from_all_locations]
 
    def index
+      #checking to see if a query / search was made first to filter the results
       if params[:query].present?
-         #create scope method out of this line below. needs chainable - with like sort for example.
-         #@items = Item.where("user_id = ? AND name LIKE ?", @user.id, "%#{params[:query]}%")
-         @items = Item.search(@user.id, params[:query]).order(name: :asc)
-
+         #using my scope method with chained on order method
+         @items = Item.search(@user.id, params[:query]).order(name: params[:order].to_sym)
+         
          if @items.empty?
             @no_results = "Your search returned no results"
             @items = @user.items
          end
       else 
+         #otherwise, show all the user's items on the index page
          @items = @user.items
       end
    end
@@ -21,9 +22,11 @@ class ItemsController < LocationItemsController
    def new
       #allow me to create a new item and assign it to an existing location
       #otherwise, prompt the user to create a location first
+      #not implementing this in the MVP for my project
    end
    
    def create
+      #not implementing this in the MVP for my project
    end
    
    def show
@@ -35,21 +38,21 @@ class ItemsController < LocationItemsController
    end
    
    def edit 
-      #MVP allow only edits of the actual location name 
+      #not implementing this in the MVP for my project 
    end
    
    def update
+      #not implementing this in the MVP for my project
       #update only the name; later on could add the ability to manage inventory / transfer inventory between locations
    end  
 #Add this funcationality if later - REFACTOR -- probably place it under a route of just localhost:3000/items - which will show all the items owned and which locations they are in.  
    def destroy_item_from_all_locations
+      #not implementing this in the MVP for my project
       #need to make sure that @item.destroy will destroy all the associated @location_item entries
       authorized?(resource_user_id: @location.user_id) do 
-         #nothing right now.  Need to figure this out tomorrow -- may need to use .destroy_all? or what ever will ripple delete
+         #nothing right now.  need to ripple delete or request the user clunkily delete all the stock at all locations first. 
       end
       # DO NOT FORGET TO UPDATE routes.rb to reflect these new actions
    end
-
-
 end
 
