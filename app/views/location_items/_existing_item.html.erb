@@ -5,7 +5,7 @@
    <div class="input-field container">
       <%= f.collection_select :id, user_items, :id, :name %>
       <%= f.label :id, "Existing Items" %>
-   </div><br><br>
+   </div>
       <%= fields_for location_item do |loc_item| %>
          <%= loc_item.hidden_field :location_id %>
          <div class="row">     
