@@ -1,8 +1,18 @@
 <h2 class="center">Add Item to <%= @location.name %></h2>
 
 <% if @user_items.present? %>
-   <%= render partial: "existing_item", locals: {item: @item, location: @location, location_item: @location_item, user_items: @user_items} %> 
+<h3 class="center">Add Additional Stock<br>of Existing Item to this Location</h3>
+<div class="container">
+   <div class="container center">
+      <%= render partial: "existing_item", locals: {item: @item, location: @location, location_item: @location_item, user_items: @user_items} %>       
+   </div>
+</div>   
 <% end %>
-<h2>Create a New Item and Add Stock to this Location</h2>
+<h3 class="center">Create a New Item and Add Stock to this Location</h3>
 <%= render partial: "item", locals: {item: @item, url: location_items_path(@location), location_item: @location_item} %>
 <%= link_to  "Return to item list for #{@location.name}", location_items_path(@location) %>
+<script>
+   $(document).ready(function(){
+      $('select').formSelect();
+    });
+</script>
