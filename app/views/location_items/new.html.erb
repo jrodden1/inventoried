@@ -11,8 +11,3 @@
 <h3 class="center">Create a New Item and Add Stock to this Location</h3>
 <%= render partial: "item", locals: {item: @item, url: location_items_path(@location), location_item: @location_item} %>
 <%= link_to  "Return to item list for #{@location.name}", location_items_path(@location) %>
-<script>
-   $(document).ready(function(){
-      $('select').formSelect();
-    });
-</script>

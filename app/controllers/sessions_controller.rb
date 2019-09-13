@@ -23,8 +23,9 @@ class SessionsController < ApplicationController
         flash[:notify] = "Successfully Logged In!"
         redirect_to locations_path
       else
-        flash[:alert] = "Incorrect Username or Password"
-        redirect_to login_path
+        @user = User.new
+        flash.now[:alert] = "Incorrect Username or Password"
+        render :login
       end
     end
   end
