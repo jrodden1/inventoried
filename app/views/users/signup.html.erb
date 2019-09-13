@@ -1,13 +1,24 @@
-<h1>Users#signup</h1>
-<p>Find me in app/views/users/signup.html.erb</p>
-
+<h2 class="center">Signup</h2>
+<div class="container">
 <%= form_for @user do |f| %>
-   <%= f.label :name, "Your First and Last Name: " %>
-   <%= f.text_field :name %><br>
-   <%= f.label :email, "Email Address: " %>
-   <%= f.email_field :email %><br>
-   <%= f.label :password, "Desired Password: " %>
-   <%= f.password_field :password %><br><br>
+   <div class="input-field">
+      <%= f.label :name, "Your First and Last Name: " %>
+      <%= f.text_field :name %><br>
+   </div>
 
-   <%= f.submit "Signup" %>
+   <div class="input-field">
+      <%= f.label :email, "Email Address: " %>
+      <%= f.email_field :email %><br>
+   </div>
+   
+   <div class="input-field">
+      <%= f.label :password, "Desired Password: " %>
+      <%= f.password_field :password %><br><br>
+   </div>
+
+   <div class="input-field center">
+      <%= f.submit "Signup", class: "btn brown darken-1" %>
+   </div>
 <% end %>
+
+</div>
