@@ -27,10 +27,10 @@
 </div>
 <%# This should be refactored into a helper or a partial %>
 <% if @items.empty? %>
-   <p>You currently have no items.  Start by adding an item.</p>
+   <p class="center">You currently have no items.  Start by adding an item.</p>
 <% else %>
    <% if @no_results %>
-     <p><font color="red"><em><strong><%= @no_results %></strong></em></font></p>
+     <p class="center"><font size="16" color="red"><em><strong><%= @no_results %></strong></em></font></p>
    <% end %>
 
    <% @items.each do |item| %>
