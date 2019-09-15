@@ -12,7 +12,7 @@ class LocationItemsController < ApplicationController
    def new
       @item = @location.items.build
       @location_item = @location.location_items.build
-      #this next bit of logic will only retrieve the items that the user owns that are currently not in this location
+      #this next bit of logic will only retrieve the items that the user owns that are currently not in this location. This should most likely be refactored to increase efficiency so I'm not hitting the DB so much.
       #first grab all the ids of the items in this location
       location_item_ids = @location.items.map {|item| item.id}
       #then reject any of the user owned items that are in this location already so I can't add an existing item as a dupe
@@ -22,7 +22,7 @@ class LocationItemsController < ApplicationController
    end
    
    def create
-      #This create method should probably be cleaned up into some helper methods - looks kind of huuuuugee 
+      #This create method could probably be cleaned up into some helper methods - looks kind of huuuuugee, but is dealing with controller-esque kind of things.  
       authorized?(resource_user_id: @location.user_id) do 
          #check to see if I'm creating a new location item from an existing item that the user owns (just not at this location)
          if params[:existing_item].present?
@@ -83,29 +83,28 @@ class LocationItemsController < ApplicationController
    end
    
    def show
-      authorized?(resource_user_id: location_item_user_id) do 
-         render :show
-      end
+      authorized?(resource_user_id: location_item_user_id)
    end
    
    def edit
-      authorized?(resource_user_id: location_item_user_id) do
-         render :edit
-      end
+      authorized?(resource_user_id: location_item_user_id)
    end
    
    def update
-      #should possibly switch the resource_user_id to @item.users.first.id
       authorized?(resource_user_id: location_item_user_id) do 
+         #first update my item
          if @item.update(item_params)
+            #now lets try to update the location item
             if @location_item.update(location_item_params)
                flash[:notify] = "Your item was successfully updated!"
                redirect_to location_item_path(@location, @location_item)
             else
+               #something went wrong with updating the location item, display errors.
                flash[:alert] = display_errors(@location_item)
                redirect_to edit_location_item_path(@location, @location_item)
             end
          else
+            #something went wrong with updating my item, display item errors.
             flash[:alert] = display_errors(@item)
             redirect_to edit_location_item_path(@location, @location_item)
          end
