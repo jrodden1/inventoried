@@ -13,5 +13,4 @@ class Item < ApplicationRecord
       #this is not super efficient - hits the DB a lot :/ Refactor
    end
    
-   
 end
