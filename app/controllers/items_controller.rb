@@ -1,4 +1,4 @@
-class ItemsController < LocationItemsController
+class ItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user
    before_action :set_item, only: [:show, :edit, :update, :destroy_item_from_all_locations]
@@ -53,6 +53,11 @@ class ItemsController < LocationItemsController
          #nothing right now.  need to ripple delete or request the user clunkily delete all the stock at all locations first. 
       end
       # DO NOT FORGET TO UPDATE routes.rb to reflect these new actions
+   end
+
+private
+   def set_item
+      @item = Item.find_by_id(params[:id])
    end
 end
 

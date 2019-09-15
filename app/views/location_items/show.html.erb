@@ -19,5 +19,6 @@
 <br>
 <div class="center">
 <%= link_to  "Items List for #{@location.name}", location_items_path(@location), class: "btn brown darken-1" %>
+<%= link_to  "Edit #{@location_item.item.name}", edit_location_item_path(@location, @location_item), class: "btn brown darken-1" %>
 <%= link_to  "Delete Item", delete_location_item_path(@location, @location_item), method: :delete, data: {confirm: "Are you sure you want to delete all stock of this item from this location?"}, class: "btn red darken-1" %>
 </div>
