@@ -11,6 +11,7 @@ class ItemsController < ApplicationController
          
          if @items.empty?
             @no_results = "Your search returned no results"
+            #so the user doesn't see anything, go ahead and show all the users items instead
             @items = @user.items
          end
       else 
@@ -45,14 +46,14 @@ class ItemsController < ApplicationController
       #not implementing this in the MVP for my project
       #update only the name; later on could add the ability to manage inventory / transfer inventory between locations
    end  
-#Add this funcationality if later - REFACTOR -- probably place it under a route of just localhost:3000/items - which will show all the items owned and which locations they are in.  
+
    def destroy_item_from_all_locations
       #not implementing this in the MVP for my project
       #need to make sure that @item.destroy will destroy all the associated @location_item entries
+      #there currently isn't a route that can hit this; when implementing, will need to add the route to routes.rb
       authorized?(resource_user_id: @location.user_id) do 
          #nothing right now.  need to ripple delete or request the user clunkily delete all the stock at all locations first. 
       end
-      # DO NOT FORGET TO UPDATE routes.rb to reflect these new actions
    end
 
 private
