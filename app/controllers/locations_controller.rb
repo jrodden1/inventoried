@@ -4,6 +4,7 @@ class LocationsController < ApplicationController
    before_action :set_location, only: [:show, :edit, :update, :destroy] #sets @location for show, edit
 
    def index
+      #only display locations owned by the currently logged in user
       @locations = @user.locations
    end
    
@@ -33,6 +34,7 @@ class LocationsController < ApplicationController
    end
    
    def edit
+      #checks to see if the user trying to edit this location is indeed the user that owns the location
       authorized?(resource_user_id: @location.user_id)
    end
    
