@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   delete '/locations/:location_id/location_items/:id', to: "location_items#destroy_location_item_only", as: "delete_location_item"
 
 
-  resources :users, except: [:new, :delete]
+  resources :users, only: [:create]
   resources :locations do
     resources :location_items, except: [:delete], as: :items
   end
