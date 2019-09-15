@@ -89,7 +89,6 @@ class LocationItemsController < ApplicationController
    end
    
    def edit
-      binding.pry
       authorized?(resource_user_id: location_item_user_id) do
          render :edit
       end
@@ -97,22 +96,18 @@ class LocationItemsController < ApplicationController
    
    def update
       #should possibly switch the resource_user_id to @item.users.first.id
-      binding.pry
       authorized?(resource_user_id: location_item_user_id) do 
          if @item.update(item_params)
             if @location_item.update(location_item_params)
                flash[:notify] = "Your item was successfully updated!"
-               binding.pry
-               redirect_to location_item_path(@location, @item)
+               redirect_to location_item_path(@location, @location_item)
             else
                flash[:alert] = display_errors(@location_item)
-               binding.pry
-               redirect_to edit_location_item(@location, @item)
+               redirect_to edit_location_item_path(@location, @location_item)
             end
          else
             flash[:alert] = display_errors(@item)
-            binding.pry
-            redirect_to edit_location_item(@location, @item)
+            redirect_to edit_location_item_path(@location, @location_item)
          end
       end
    end
