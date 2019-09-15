@@ -10,10 +10,8 @@ class Location < ApplicationRecord
       location_item.quantity
    end
 
-   def add_or_update_item_quantity(item_obj, quantity)
-      location_item = LocationItem.find_by(location_id: self.id, item_id: item_obj.id)   
-      location_item.quantity = quantity
-      location_item.save
+   def get_location_item(item_obj)
+      LocationItem.find_by(location_id: self.id, item_id: item_obj.id)   
    end
 
 end

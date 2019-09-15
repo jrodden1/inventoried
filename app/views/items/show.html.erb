@@ -26,7 +26,7 @@
          <tbody>
             <% @locations.each do |location| %>
                <tr>
-                  <td style="padding-left: 5%"><%= link_to location.name, location_item_path(location, @item) %></td>
+                  <td style="padding-left: 5%"><%= link_to location.name, location_item_path(location, location.get_location_item(@item)) %></td>
                   <td class="center"><%= location.item_quantity(@item) %></td>
                </tr>
             <% end %>
