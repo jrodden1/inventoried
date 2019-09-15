@@ -2,11 +2,11 @@ class LocationItemsController < ApplicationController
    before_action :is_logged_in? #checks to see if a user is logged in for all actions
    before_action :current_user #sets @user for all actions
    before_action :set_location_by_location_id
-   before_action :set_item, only: [:show, :edit, :update, :destroy_location_item_only]
    before_action :set_location_item, only: [:show, :edit, :update, :destroy_location_item_only]
+   before_action :set_item, only: [:show, :edit, :update, :destroy_location_item_only]
    
    def index
-      @items = @location.items
+      @location_items = @location.location_items
    end
    
    def new
@@ -83,26 +83,35 @@ class LocationItemsController < ApplicationController
    end
    
    def show
-      authorized?(resource_user_id: @location.user_id)
+      authorized?(resource_user_id: location_item_user_id) do 
+         render :show
+      end
    end
    
-   def edit 
-      authorized?(resource_user_id: @location.user_id)
+   def edit
+      binding.pry
+      authorized?(resource_user_id: location_item_user_id) do
+         render :edit
+      end
    end
    
    def update
       #should possibly switch the resource_user_id to @item.users.first.id
-      authorized?(resource_user_id: @location.user_id) do 
+      binding.pry
+      authorized?(resource_user_id: location_item_user_id) do 
          if @item.update(item_params)
             if @location_item.update(location_item_params)
                flash[:notify] = "Your item was successfully updated!"
+               binding.pry
                redirect_to location_item_path(@location, @item)
             else
-               flash[:notify] = display_errors(@location_item)
+               flash[:alert] = display_errors(@location_item)
+               binding.pry
                redirect_to edit_location_item(@location, @item)
             end
          else
-            flash[:notify] = display_errors(@item)
+            flash[:alert] = display_errors(@item)
+            binding.pry
             redirect_to edit_location_item(@location, @item)
          end
       end
@@ -110,12 +119,12 @@ class LocationItemsController < ApplicationController
    
    def destroy_location_item_only
       #this will only destroy the location_item entry for the item (essentially just wiping out the stock of this item at a location); does not delete the item itself. 
-      authorized?(resource_user_id: @location.user_id) do 
+      authorized?(resource_user_id: location_item_user_id) do 
          if @location_item.destroy
             flash[:notify] = "All stock of this item has been removed from this location."
             redirect_to location_items_path(@location)
          else
-            flash[:notify] = display_errors(@location_item)
+            flash[:alert] = display_errors(@location_item)
             render :show
          end
       end
@@ -135,11 +144,15 @@ private
    end
 
    def set_item
-      @item = Item.find_by_id(params[:id])
+      @item = @location_item.item
    end
 
    def set_location_item
-      @location_item = LocationItem.find_by(location_id: params[:location_id], item_id: params[:id])
+      @location_item = LocationItem.find_by_id(params[:id])
+   end
+
+   def location_item_user_id
+      @location_item.location.user.id
    end
 
 end

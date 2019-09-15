@@ -2,14 +2,14 @@
    breadcrumbs: [
       {url: locations_path, name: "Locations"}, 
       {url: location_path(@location), name: @location.name},
-      {url: location_item_path(@location, @item), name: @item.name},
-      {url: edit_location_item_path(@location, @item), name: "Edit"}
+      {url: location_item_path(@location, @location_item), name: @location_item.item.name},
+      {url: edit_location_item_path(@location, @location_item), name: "Edit"}
       ]
    } 
 %><br>
 
 <div class="container">
    <div class="container">
-      <%= render partial: "item", locals: {item: @item, url: location_item_path(@location, @item), location_item: @location_item} %>
+      <%= render partial: "location_item", locals: {item: @item, url: location_item_path(@location, @location_item), location_item: @location_item} %>
    </div>
 </div>

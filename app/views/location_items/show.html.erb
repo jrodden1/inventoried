@@ -2,16 +2,16 @@
    breadcrumbs: [
       {url: locations_path, name: "Locations"}, 
       {url: location_path(@location), name: @location.name},
-      {url: location_item_path(@location, @item), name: @item.name},
-      {url: location_item_path(@location, @item), name: "Stock"}
+      {url: location_item_path(@location, @location_item), name: @location_item.item.name},
+      {url: location_item_path(@location, @location_item), name: "Stock"}
       ]
    } 
 %>
-<h3 class="center">Item Detail for: <%= @item.name %></h3>
-<% if @item.description.present? %>
+<h3 class="center">Item Detail for: <%= @location_item.item.name %></h3>
+<% if @location_item.item.description.present? %>
    <div style="padding: 1%; border: 2px;">
       <h5 class="center"><b>Description:</b></h5>
-      <p class="center"><%= @item.description %></p>
+      <p class="center"><%= @location_item.item.description %></p>
    </div>
 <% end %>   
 
@@ -19,5 +19,5 @@
 <br>
 <div class="center">
 <%= link_to  "Items List for #{@location.name}", location_items_path(@location), class: "btn brown darken-1" %>
-<%= link_to  "Delete Item", delete_location_item_path(@location, @item), method: :delete, data: {confirm: "Are you sure you want to delete all stock of this item from this location?"}, class: "btn red darken-1" %>
+<%= link_to  "Delete Item", delete_location_item_path(@location, @location_item), method: :delete, data: {confirm: "Are you sure you want to delete all stock of this item from this location?"}, class: "btn red darken-1" %>
 </div>
