@@ -32,7 +32,7 @@ class SessionsController < ApplicationController
 
   #aka destroy
   def logout
-    session.delete :user_id
+    session.destroy
     redirect_to login_path
   end
 
