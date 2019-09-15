@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   
-  # this is the new route 
+  # This is the "new" route essentially
   def signup
     @user = User.new
   end
@@ -11,20 +11,21 @@ class UsersController < ApplicationController
     if @user.id
       flash[:notify] = "Account Successfully Created.\nYou have also been logged in."
       session[:user_id] = @user.id
+      
+      #the user's "home page" is the locations page
       redirect_to locations_path
     else
-      flash[:alert] = "Errors detected!\n#{display_errors(@user)}"
+      flash[:alert] = "Errors detected! #{display_errors(@user)}"
       render :signup
     end
   end
 
-  def show
-  end
+  #not implementing these as of now in the MVP. 
+  # def show
+  # end
 
-  def edit
-  end
-
-  #Also need to add the facebook omniauth route etc.  
+  # def edit
+  # end
 
 private
 
