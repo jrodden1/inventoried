@@ -49,7 +49,7 @@
          <tbody>
             <% item.location_items.each do |loc_item| %>
                <tr>  
-                  <td> <%= link_to  loc_item.location.name, location_item_path(loc_item.location, item) %></td>
+                  <td> <%= link_to  loc_item.location.name, location_item_path(loc_item.location, loc_item) %></td>
                   <td><%= loc_item.quantity %></td>
                </tr>
             <% end %>
