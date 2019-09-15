@@ -38,6 +38,7 @@ class SessionsController < ApplicationController
 
 private
 
+  #used for omniauth facebook
   def auth
     request.env['omniauth.auth']
   end
