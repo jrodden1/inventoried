@@ -3,7 +3,7 @@ class Location < ApplicationRecord
    has_many :location_items
    has_many :items, through: :location_items
 
-   validates :name, presence: true, uniqueness: true
+   validates :name, presence: true
 
    def item_quantity(item_obj)
       location_item = LocationItem.find_by(location_id: self.id, item_id: item_obj.id)
