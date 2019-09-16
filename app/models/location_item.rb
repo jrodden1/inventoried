@@ -2,7 +2,7 @@ class LocationItem < ApplicationRecord
    belongs_to :location
    belongs_to :item
 
-   validates :quantity, presence: true
+   validates :quantity, presence: true, numericality: true
 
    def item_name
       self.item.name
