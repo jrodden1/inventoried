@@ -22,7 +22,7 @@ class LocationItemsController < ApplicationController
    end
    
    def create
-      #This create method could probably be cleaned up into some helper methods - looks kind of huuuuugee, but is dealing with controller-esque kind of things.  
+      #This create method could probably be cleaned up into some helper methods - looks kind of huuuuugee, but is dealing with controller-esque kind of things so leaving it for now.  
       authorized?(resource_user_id: @location.user_id) do 
          #check to see if I'm creating a new location item from an existing item that the user owns (just not at this location)
          if params[:existing_item].present?
