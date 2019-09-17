@@ -12,7 +12,7 @@
    <%= link_to  "Delete", location_path(@location), method: :delete, data: { confirm: "Are you sure you want to delete #{@location.name}?" }, class: "btn brown darken-1" %>         
 </div><br>
 
-<% if @location_items.empty? %>
+<% if @items.empty? %>
    <h6 class="center">
       You currently have no items at this location to display.<br>
       Click on the Add Item to <%= @location.name %> button.
@@ -29,13 +29,13 @@
       </tr>
       </thead>
       <tbody>
-      <% @location_items.each do |loc_item| %>
+      <% @items.each do |item| %>
          <tr>
-            <td style="padding-left: 5%"><%= loc_item.item.name %></td>
-            <td class="center"><%= loc_item.quantity %></td>
-            <td class="center"><%= link_to "View", location_item_path(@location, loc_item), class: "btn brown darken-1" %></td>
-            <td class="center"><%= link_to "Edit", edit_location_item_path(@location, loc_item), class: "btn brown darken-1" %></td>
-            <td class="center"><%= link_to "Delete", delete_location_item_path(@location, loc_item), method: :delete, data: { confirm: "Are you sure you want to delete #{loc_item.item.name} and all its stock from #{@location.name}?" }, class: "btn red darken-2" %></td>
+            <td style="padding-left: 5%"><%= item.name %></td>
+            <td class="center"><%= item.quantity(@location) %></td>
+            <td class="center"><%= link_to "View", location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td class="center"><%= link_to "Edit", edit_location_item_path(@location, item), class: "btn brown darken-1" %></td>
+            <td class="center"><%= link_to "Delete", delete_location_item_path(@location, item), method: :delete, data: { confirm: "Are you sure you want to delete #{item.name} and all its stock from #{@location.name}?" }, class: "btn red darken-2" %></td>
          </tr>
       <% end %>
       </tbody>

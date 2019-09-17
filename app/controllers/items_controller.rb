@@ -4,11 +4,17 @@ class ItemsController < ApplicationController
    before_action :set_item, only: [:show, :edit, :update, :destroy_item_from_all_locations]
 
    def index
-      #checking to see if a query / search was made first to filter the results
+      if params[:location_id]
+         @location = Location.find_by_id(params[:location_id])
+         @items = @location.items
+         render :location_index
+      else
+      # checking to see if a query / search was made first to filter the results
+      @default = true if params[:order] != "desc"
       if params[:query].present?
          #using my scope method with chained on order method
          @items = Item.search(@user.id, params[:query]).order(name: params[:order].to_sym)
-         
+
          if @items.empty?
             @no_results = "Your search returned no results"
             #so the user doesn't see anything, go ahead and show all the users items instead
@@ -18,6 +24,8 @@ class ItemsController < ApplicationController
          #otherwise, show all the user's items on the index page
          @items = @user.items
       end
+      end
+
    end
    
    def new
