@@ -15,11 +15,11 @@
          <%= link_to  "Reset", items_path, class: "btn red darken-1"%>
          <p>Sort: 
                <label>
-               <input class="with-gap" name="order" type="radio" value="asc" checked />
+               <input class="with-gap" name="order" type="radio" value="asc" <%="checked" if @default %> />
                <span>Alphabetical (A-Z)</span>
                </label>
                <label>
-               <input class="with-gap" name="order" type="radio" value="desc" />
+               <input class="with-gap" name="order" type="radio" value="desc" <%= "checked" if !@default %> />
                <span>Reverse Alphabetical (Z-A)</span>
                </label>
             </p>
