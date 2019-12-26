@@ -27,8 +27,6 @@ class ItemsController < ApplicationController
          #otherwise, show all the user's items on the index page
          @items = @user.items
       end
-      end
-
    end
 
    def new
