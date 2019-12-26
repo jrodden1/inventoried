@@ -4,15 +4,6 @@ class ItemsController < ApplicationController
    before_action :set_item, only: [:show, :edit, :update, :destroy_item_from_all_locations]
 
    def index
-<<<<<<< HEAD
-      if params[:location_id]
-         @location = Location.find_by_id(params[:location_id])
-         @items = @location.items
-         render :location_index
-      else
-      # checking to see if a query / search was made first to filter the results
-      @default = true if params[:order] != "desc"
-=======
       # This if/else logic below could be used if my routes were redone so that the nesting was actually location/2/items/3 - and just have items index have dual purpose
       # if params[:location_id]
       #    @location = Location.find_by_id(params[:location_id])
@@ -23,7 +14,6 @@ class ItemsController < ApplicationController
       #this makes the query sort order a bit more "sticky"
       @default = true if params[:order] != "desc"
       # checking to see if a query / search was made first to filter the results
->>>>>>> 96babfadb000765fb0d1707c17e54dc1813f2f42
       if params[:query].present?
          #using my scope method with chained on order method
          @items = Item.search(@user.id, params[:query]).order(name: params[:order].to_sym)
