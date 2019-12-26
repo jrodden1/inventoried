@@ -26,10 +26,16 @@
         padding-left: 5%;
       }
  
-      #flash-notice {
+      .flash-notice {
         display: inline;
         border-radius: 15px;
         padding: 10px; 
+      }
+      
+      #toast-container {
+        min-width: 10%;
+        right: 50%;
+        transform: translateX(50%) translateY(50%);
       }
     </style>
     
@@ -55,15 +61,15 @@
     </nav><br>
     <div class="container">  
       <% if flash[:notify].present? %>  
-        <div class="center">  
-          <p class="green lighten-1 white-text" id="flash-notice"><%= flash[:notify] %></p>
-        </div><br>
+        <script> 
+          M.toast({html: "<%= flash[:notify] %>", classes: 'rounded green lighten-1 white-text flash-notice'});
+        </script>
       <% end %>
-
+      
       <% if flash[:alert].present? %>
-        <div class="center">  
-          <p class="red lighten-1 white-text" id="flash-notice"><%= flash[:alert] %></p>
-        </div><br>
+        <script>
+          M.toast({html: "<%= flash[:alert] %>", classes: 'rounded red lighten-1 white-text flash-notice', displayLength: 10000});
+        </script>        
       <% end %>
 
       <%= yield %>
@@ -80,6 +86,7 @@
         $(document).ready(function(){
            $('select').formSelect();
          });
+        
      </script>
   </body>
 </html>
