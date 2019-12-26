@@ -13,4 +13,8 @@ class Item < ApplicationRecord
       #this is not super efficient - hits the DB a lot :/ Refactor
    end
    
+   def quantity(location)
+      LocationItem.find_by(location_id: location.id, item_id: self.id).quantity
+   end
+   
 end
