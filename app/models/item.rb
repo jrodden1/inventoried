@@ -17,8 +17,4 @@ class Item < ApplicationRecord
       LocationItem.find_by(location_id: location.id, item_id: self.id).quantity
    end
    
-<<<<<<< HEAD
-
-=======
->>>>>>> 96babfadb000765fb0d1707c17e54dc1813f2f42
 end
