@@ -32,9 +32,12 @@
         padding: 10px; 
       }
       
+      
       #toast-container {
-        min-width: 10%;
-        right: 50%;
+        top: 10%;
+        right: 50%; 
+        left: auto !important;
+        bottom: auto !important;
         transform: translateX(50%) translateY(50%);
       }
     </style>
@@ -71,26 +74,28 @@
       <% end %>
     </ul>
     <div class="container">  
-      <% if flash[:notify].present? %>  
-        <script> 
-          M.toast({html: "<%= flash[:notify] %>", classes: 'rounded green lighten-1 white-text flash-notice'});
-        </script>
-      <% end %>
-      
-      <% if flash[:alert].present? %>
-        <script>
-          M.toast({html: "<%= flash[:alert] %>", classes: 'rounded red lighten-1 white-text flash-notice', displayLength: 10000});
-        </script>        
-      <% end %>
+      <div class="col s12 m6">
+        <% if flash[:notify].present? %>  
+          <script> 
+            M.toast({html: "<%= flash[:notify] %>", classes: 'rounded green lighten-1 white-text flash-notice'});
+          </script>
+        <% end %>
+        
+        <% if flash[:alert].present? %>
+          <script>
+            M.toast({html: "<%= flash[:alert] %>", classes: 'rounded red lighten-1 white-text flash-notice', displayLength: 10000});
+          </script>        
+        <% end %>
 
-      <%= yield %>
-      <br>
+        <%= yield %>
+        <br>
 
-      <% if is_logged_in? %>
-        <p class="center">You are currently logged in as: <%= current_user.email %> </p>
-      <% else %>
-        <p class="center">You are currently not logged in.</p>
-      <% end %>
+        <% if is_logged_in? %>
+          <p class="center">You are currently logged in as: <%= current_user.email %> </p>
+        <% else %>
+          <p class="center">You are currently not logged in.</p>
+        <% end %>
+      </div>
     </div>
 
     <script>
@@ -101,21 +106,6 @@
         $(document).ready(function(){
           $('.sidenav').sidenav();
         });
-      // This enables initial sidenav for mobile to work
-        // $(document).ready(function(){
-        //   const sideNavButtons = document.querySelectorAll(".sn-btn")
-        //   sideNavButtons.forEach(btn => {
-        //     btn.addEventListener("click", () => $('.sidenav').sidenav())
-        //   }) 
-        //   $('.sidenav').sidenav();
-        // });
-      // THERE IS A BUG HERE WITH RE-INITIALIZATION OF THIS ON EACH PAGE
-      // MY STRATEGY WAS TO (ON INITIALIZATION) ADD EVENT LISTENERS ON EACH OF THE 
-      // SIDE NAV BUTTONS SO THAT WHEN CLICKED IT RUNS THE INITIALIZATION AGAIN.
-      // THINK THIS NEEDS TO BE FIXED.  
-    </script>
-    <script>
-      
     </script>
   </body>
 </html>
